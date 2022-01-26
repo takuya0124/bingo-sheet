@@ -15,12 +15,13 @@
     <div class="container" id="app">
       <div class="row">
         <div class="col-6">
-          {{ message }}
+          <h1 v-if='isReach'>リーチです！</h1>
+          <h1 v-if='isBingo'>BINGO！</h1>
           <table class="table">
             <thead>
               <tr>
-                <th v-for="item in items">
-                  {{ item.column }}
+                <th v-for="i in items">
+                  {{ i.column }}
                 </th>
               </tr>
             </thead>
@@ -28,7 +29,7 @@
               <tr v-for="(item,i) in items">
                 <td v-for="(num, j) in item.list">
                   <div class="d-grid gap-2">
-                    <button v-bind:class="['btn' , 'btn-lg', {'btn-primary': items[j].isActive_list[i]}]" type="button" v-on:click="changeState(i,j)">
+                    <button v-bind:class="['btn' , 'btn-lg', {'btn-primary': items[j].isActiveList[i]}]" type="button" v-on:click="changeState(i,j)">
                       {{ items[j].list[i] }}
                     </button>
                   </div>
