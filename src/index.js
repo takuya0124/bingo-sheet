@@ -5,30 +5,35 @@ var app = new Vue({
     items: [
       {column:'B', list:[], isActiveList:[false,false,false,false,false]},
       {column:'I', list:[], isActiveList:[false,false,false,false,false]},
-      {column:'N', list:[], isActiveList:[false,false,false,false,false]},
+      {column:'N', list:[], isActiveList:[false,false,true,false,false]},
       {column:'G', list:[], isActiveList:[false,false,false,false,false]},
       {column:'O', list:[], isActiveList:[false,false,false,false,false]}
     ],
     buttonState: false,
     isReach : false,
     isBingo : false,
-    CheckCount : [[0, 0, 0, 0, 0],[0, 0, 0, 0, 0],[0, 0, -1, -1, -1]]
+    CheckCount : [[0, 0, 1, 0, 0],[0, 0, 1, 0, 0],[1, 1, -1, -1, -1]]
   },
   methods:{
     changeState: function(i,j){
-      this.items[j].isActiveList.splice(i, 1, !this.items[j].isActiveList[i]);
-      this.CheckCount = CheckReach(i,j,this.CheckCount, this.items[j].isActiveList[i]);
-      this.isReach = false;
-      this.isBingo = false;
-      for (let h = 0; h < 3; h++){
-        for (let k = 0; k < this.CheckCount[h].length;k++){
-          var count = this.CheckCount[h][k];
-          if(count == 5){
-            this.isReach = false;
-            this.isBingo = true;
-            break;
-          }else if(count == 4){
-            this.isReach = true;
+      if(i!=j || i !=2){
+        this.items[j].isActiveList.splice(i, 1, !this.items[j].isActiveList[i]);
+        this.CheckCount = CheckReach(i,j,this.CheckCount, this.items[j].isActiveList[i]);
+        this.isReach = false;
+        this.isBingo = false;
+        for (let h = 0; h < 3; h++){
+          for (let k = 0; k < this.CheckCount[h].length;k++){
+            var count = this.CheckCount[h][k];
+            if(count == 5){
+              this.isReach = false;
+              this.isBingo = true;
+              break;
+            }else if(count == 4){
+              this.isReach = true;
+              break;
+            }
+          }
+          if(this.isBingo){
             break;
           }
         }
@@ -39,6 +44,7 @@ var app = new Vue({
 
 for (let i = 0; i < 5; i++){
   app.items[i].list = getRandomList(i*15+1,(i+1)*15,5);
+  app.items[2].list[2] = 'free'
 }
 
 function getRandomInt(min, max) {
